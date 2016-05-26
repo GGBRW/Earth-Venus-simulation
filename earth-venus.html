@@ -1,0 +1,68 @@
+<canvas style="background: black" id="c" height="1000" width="1000"></canvas>
+<script>
+let ctx = c.getContext("2d");
+[c.height,c.width] = [innerHeight,innerWidth];
+
+document.body.style.margin = 0;
+document.body.style.overflow = "none";
+
+let earth = { a: Math.PI }, venus = { a: Math.PI };
+
+ctx.fillStyle = "#101010";
+ctx.fillRect(0,0,c.width,c.height);
+
+ctx.beginPath();
+ctx.arc(c.width / 2,c.height / 2,145,0,2*Math.PI);
+ctx.strokeStyle = "lightgray";
+ctx.stroke();
+
+ctx.beginPath();
+ctx.arc(c.width / 2,c.height / 2,200,0,2*Math.PI);
+ctx.stroke();
+
+imageData = ctx.getImageData(c.width / 2 - 211,c.height / 2 - 211,700,700);
+
+let i = 0;
+(function run() {
+    ctx.putImageData(imageData, c.width / 2 - 211, c.height / 2 - 211);
+
+    earth.a -= .1 * Math.PI / 5;
+    venus.a -= .1625 * Math.PI / 5;
+
+    ctx.beginPath();
+    ctx.moveTo(c.width / 2 + Math.sin(earth.a) * 200, c.height / 2 + Math.cos(earth.a) * 200);
+    ctx.lineTo(c.width / 2 + Math.sin(venus.a) * 145, c.height / 2 + Math.cos(venus.a) * 145);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(c.width / 2, c.height / 2, 25, 0, 2 * Math.PI);
+    ctx.fillStyle = '#f2db10';
+    ctx.fill();
+
+    imageData = ctx.getImageData(c.width / 2 - 211, c.height / 2 - 211, 700, 700);
+
+    ctx.beginPath();
+    ctx.arc(c.width / 2 + Math.sin(earth.a) * 200, c.height / 2 + Math.cos(earth.a) * 200, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = 'blue';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(c.width / 2 + Math.sin(venus.a) * 145, c.height / 2 + Math.cos(venus.a) * 145, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = 'orange';
+    ctx.fill();
+
+    ++i;
+
+    if(i < 800) requestAnimationFrame(run);
+    else ctx.putImageData(imageData, c.width / 2 - 211, c.height / 2 - 211);
+})();
+</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-63707482-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
